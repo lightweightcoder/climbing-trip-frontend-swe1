@@ -1,37 +1,26 @@
-import React, { useState, useReducer, useContext } from 'react';
+/* eslint-disable max-len */
+import React, { useReducer } from 'react';
 import axios from 'axios';
 
 // create an object that represents all the data contained in the app
 // we moved all of this data from the app component into the store
 export const initialState = {
-  cart: [],
-  items: [],
-  currentItemIndex: null,
+  // trips and currentTripRoutes will store database information of every trip and route respectively
+  trips: [],
+  currentTripRoutes: [],
 };
 
-// just like the todo app, define each action we want to do on the
-// data we defined above
-const ADD_CART = 'ADD_CART';
-const REMOVE_CART = 'REMOVE_CART';
-const EMPTY_CART = 'EMPTY_CART';
-const LOAD_ITEMS = 'LOAD_ITEMS';
-const SELECT_ITEM = 'SELECT_ITEM';
+// define each action we want to do on the data we defined above
+const LOAD_TRIPS = 'LOAD_TRIPS';
+const LOAD_ROUTES = 'LOAD_ROUTES';
 
 // define the matching reducer function
-export function ecomReducer(state, action) {
+export function climbingReducer(state, action) {
   switch (action.type) {
-    case ADD_CART:
-      return { ...state, cart: [...state.cart, action.payload.item] };
-    case REMOVE_CART:
-      const cart = state.filter((_item, i) => action.payload.cartIttemIndex !== i);
-      return { ...state, cart };
-    case EMPTY_CART:
-      return { ...state, cart: [] };
-    case LOAD_ITEMS:
-      return { ...state, items: action.payload.items };
-    case SELECT_ITEM:
-      const currentItemIndex = action.payload.itemIndex;
-      return { ...state, currentItemIndex };
+    case LOAD_TRIPS:
+      return { ...state, items: action.payload.trips };
+    case LOAD_ROUTES:
+      return { ...state, items: action.payload.routes };
     default:
       return state;
   }
@@ -42,43 +31,20 @@ export function ecomReducer(state, action) {
 // and return an object that represents that action, which is typically
 // passed to the dispatch function. Actions always contain a type attribute
 // used to identify the action and tell the reducer what logic to run.
-export function addCartAction(item) {
+export function loadTripsAction(trips) {
   return {
-    type: ADD_CART,
+    type: LOAD_TRIPS,
     payload: {
-      item,
+      trips,
     },
   };
 }
 
-export function removeCartAction(cartItemIndex) {
+export function loadRoutesAction(routes) {
   return {
-    type: REMOVE_CART,
+    type: LOAD_ROUTES,
     payload: {
-      cartItemIndex,
-    },
-  };
-}
-
-export function emptyCartAction() {
-  return {
-    type: EMPTY_CART,
-  };
-}
-
-export function loadItemsAction(items) {
-  return {
-    type: LOAD_ITEMS,
-    payload: {
-      items,
-    },
-  };
-}
-export function selectItemAction(itemIndex) {
-  return {
-    type: SELECT_ITEM,
-    payload: {
-      itemIndex,
+      routes,
     },
   };
 }
@@ -97,18 +63,18 @@ export function selectItemAction(itemIndex) {
 // In this section we extract out the provider HOC
 
 // export the whole context
-export const EcomContext = React.createContext(null);
+export const ClimbingContext = React.createContext(null);
 
 // create the provider to use below
-const { Provider } = EcomContext;
+const { Provider } = ClimbingContext;
 
 // export a provider HOC that contains the initalized reducer
 // pass the reducer as context to the children
 // any child component will be able to alter the state of the app
-export function EcomProvider({ children }) {
+export function ClimbingProvider({ children }) {
   // create the dispatch function in one place and put in into context
   // where it will be accessible to all of the children
-  const [store, dispatch] = useReducer(ecomReducer, initialState);
+  const [store, dispatch] = useReducer(climbingReducer, initialState);
 
   // surround the children elements with
   // the context provider we created above
@@ -136,19 +102,16 @@ export function EcomProvider({ children }) {
 // these functions must be passed the dispatch from the current context
 
 // place the hard coded backend URL in this file only
-const BACKEND_URL = 'http://localhost:3002';
+const BACKEND_URL = 'http://localhost:3004';
 
-export function loadItems(dispatch) {
-  axios.get(`${BACKEND_URL}/items`).then((result) => {
-    dispatch(loadItemsAction(result.data.items));
+export function loadTrips(dispatch) {
+  axios.get(`${BACKEND_URL}/trips`).then((result) => {
+    dispatch(loadTripsAction(result.data.trips));
   });
 }
 
-export function createOrder(dispatch, order) {
-  return new Promise((resolve, reject) => {
-    axios.post(`${BACKEND_URL}/orders`, order).then((result) => {
-      dispatch(emptyCartAction());
-      resolve(result.data.order.id);
-    });
+export function loadRoutes(dispatch) {
+  axios.get(`${BACKEND_URL}/routes`).then((result) => {
+    dispatch(loadRoutesAction(result.data.routes));
   });
 }
