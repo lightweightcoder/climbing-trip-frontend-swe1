@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# RA coursework 8.POCE.2 - rock climbing trip planner
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
