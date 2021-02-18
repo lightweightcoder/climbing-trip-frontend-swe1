@@ -1,5 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Card, Button, Modal } from 'react-bootstrap';
+import EditableRoutes from './EditableRoutes.jsx';
+import StaticRoutes from './StaticRoutes.jsx';
 
 // import all the appropriate trips functions
 import {
@@ -51,9 +53,14 @@ export default function Trips() {
 
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title>
+              {trip.name}
+            </Modal.Title>
           </Modal.Header>
-          <Modal.Body>Woohoo, you reading this text in a modal!</Modal.Body>
+          <Modal.Body>
+            <StaticRoutes />
+            {/* <EditableRoutes /> */}
+          </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               Close
