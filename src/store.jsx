@@ -20,7 +20,7 @@ export function climbingReducer(state, action) {
     case LOAD_TRIPS:
       return { ...state, items: action.payload.trips };
     case LOAD_ROUTES:
-      return { ...state, items: action.payload.routes };
+      return { ...state, currentTripRoutes: action.payload.routes };
     default:
       return state;
   }

@@ -1,24 +1,14 @@
 import React from 'react';
 import './App.css';
-import { Modal, Button } from 'react-bootstrap';
+import Routes from './Routes.jsx';
+import { ClimbingProvider } from './store.jsx';
 
 function App() {
   return (
     <div className="App">
-      <Modal.Dialog>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal title</Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          <p>Modal body text goes here.</p>
-        </Modal.Body>
-
-        <Modal.Footer>
-          <Button variant="secondary">Close</Button>
-          <Button variant="primary">Save changes</Button>
-        </Modal.Footer>
-      </Modal.Dialog>
+      <ClimbingProvider>
+        <Routes />
+      </ClimbingProvider>
     </div>
   );
 }
