@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import axios from 'axios';
 
 // create an object that represents all the data contained in the app
@@ -18,9 +18,9 @@ const LOAD_ROUTES = 'LOAD_ROUTES';
 export function climbingReducer(state, action) {
   switch (action.type) {
     case LOAD_TRIPS:
-      return { ...state, items: action.payload.trips };
+      return { ...state, trips: action.payload.trips };
     case LOAD_ROUTES:
-      return { ...state, items: action.payload.routes };
+      return { ...state, currentTripRoutes: action.payload.routes };
     default:
       return state;
   }
@@ -62,6 +62,9 @@ export function loadRoutesAction(routes) {
 
 // In this section we extract out the provider HOC
 
+// place the hard coded backend URL in this file only to make axios requests to the DB
+const BACKEND_URL = 'http://localhost:3004';
+
 // export the whole context
 export const ClimbingContext = React.createContext(null);
 
@@ -75,6 +78,13 @@ export function ClimbingProvider({ children }) {
   // create the dispatch function in one place and put in into context
   // where it will be accessible to all of the children
   const [store, dispatch] = useReducer(climbingReducer, initialState);
+
+  useEffect(() => {
+    axios.get(`${BACKEND_URL}/trips`).then((result) => {
+      console.log('axios get trips request result is', result);
+      dispatch(loadTripsAction(result.data.trips));
+    });
+  }, []);
 
   // surround the children elements with
   // the context provider we created above
@@ -98,20 +108,16 @@ export function ClimbingProvider({ children }) {
 
 // In this section we extract out the
 // code that makes requests to the backend
-//
+
 // these functions must be passed the dispatch from the current context
-
-// place the hard coded backend URL in this file only
-const BACKEND_URL = 'http://localhost:3004';
-
 export function loadTrips(dispatch) {
   axios.get(`${BACKEND_URL}/trips`).then((result) => {
     dispatch(loadTripsAction(result.data.trips));
   });
 }
 
-export function loadRoutes(dispatch) {
-  axios.get(`${BACKEND_URL}/routes`).then((result) => {
+export function loadRoutes(dispatch, tripId) {
+  axios.get(`${BACKEND_URL}/trips/${tripId}/routes`).then((result) => {
     dispatch(loadRoutesAction(result.data.routes));
   });
 }
