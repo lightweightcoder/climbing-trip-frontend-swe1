@@ -14,6 +14,7 @@ export default function Trips() {
   // of the provider Higher Order Component in store.jsx
   const { store, dispatch } = useContext(ClimbingContext);
   const [show, setShow] = useState(false);
+  const [display, setDisplay] = useState('Static');
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -28,6 +29,15 @@ export default function Trips() {
     }
 
     return text;
+  };
+
+  const handleEditRoutes = () => {
+    setDisplay('Editable');
+  };
+
+  const handleSaveChanges = () => {
+    setShow(false);
+    setDisplay('Static');
   };
 
   // handle when user clicks on the 'more info' button to display routes for that trip
@@ -57,16 +67,26 @@ export default function Trips() {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <StaticRoutes />
-            {/* <EditableRoutes /> */}
+            { display === 'Static'
+              ? <StaticRoutes />
+              : <EditableRoutes />}
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={handleClose}>
-              Save Changes
-            </Button>
+
+            { display === 'Static'
+              ? (
+                <Button variant="primary" onClick={handleEditRoutes}>
+                  Edit Routes
+                </Button>
+              )
+              : (
+                <Button variant="primary" onClick={handleSaveChanges}>
+                  Save Changes
+                </Button>
+              )}
           </Modal.Footer>
         </Modal>
       </div>
