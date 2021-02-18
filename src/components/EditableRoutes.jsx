@@ -7,7 +7,7 @@ import createListOfDifficulty from '../helper.js';
 // const BACKEND_URL = 'http://localhost:3004';
 // axios.defaults.withCredentials = true;
 
-export default function Routes() {
+export default function EditableRoutes() {
   const { store } = useContext(ClimbingContext);
   const handleChangeOrder = () => {
 

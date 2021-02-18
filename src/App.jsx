@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
-// import { Modal, Button } from 'react-bootstrap';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 // import the contexts providers
 import {
@@ -9,15 +10,20 @@ import {
 
 // import the child components of App
 import Trips from './components/Trips.jsx';
+import Container from './components/Container.jsx';
 
 function App() {
   return (
-    <ClimbingProvider>
-      <div className="App">
-        <h1>Rock Climbing Planner</h1>
-        <Trips />
-      </div>
-    </ClimbingProvider>
+    <div>
+      <DndProvider backend={HTML5Backend}>
+        <ClimbingProvider>
+          <div className="App">
+            <h1>Rock Climbing Planner</h1>
+            <Trips />
+          </div>
+        </ClimbingProvider>
+      </DndProvider>
+    </div>
   );
 }
 

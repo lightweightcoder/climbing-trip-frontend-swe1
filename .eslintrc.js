@@ -21,6 +21,7 @@ module.exports = {
   rules: {
     'no-unused-vars': 'warn',
     'react/prop-types': 'warn',
+    'max-len': 'warn',
     // Don't enforce control flow closing curly brace needs to be
     // on same line as next control flow opening statement.
     // This is so we can add comments above control flow statements such as else if or else.
