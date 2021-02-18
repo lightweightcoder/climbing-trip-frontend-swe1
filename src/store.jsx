@@ -20,7 +20,7 @@ export function climbingReducer(state, action) {
     case LOAD_TRIPS:
       return { ...state, trips: action.payload.trips };
     case LOAD_ROUTES:
-      return { ...state, items: action.payload.routes };
+      return { ...state, currentTripRoutes: action.payload.routes };
     default:
       return state;
   }
@@ -116,8 +116,8 @@ export function loadTrips(dispatch) {
   });
 }
 
-export function loadRoutes(dispatch) {
-  axios.get(`${BACKEND_URL}/routes`).then((result) => {
+export function loadRoutes(dispatch, tripId) {
+  axios.get(`${BACKEND_URL}/trips/${tripId}/routes`).then((result) => {
     dispatch(loadRoutesAction(result.data.routes));
   });
 }

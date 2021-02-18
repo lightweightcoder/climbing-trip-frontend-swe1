@@ -1,0 +1,79 @@
+import React, { useState, useContext } from 'react';
+import { Card, Button, Modal } from 'react-bootstrap';
+
+// import all the appropriate trips functions
+import {
+  ClimbingContext,
+  loadRoutes,
+} from '../store.jsx';
+
+export default function Trips() {
+  // initialize the data from the context provider to obtain the
+  // state and dispatch function from the value attribute
+  // of the provider Higher Order Component in store.jsx
+  const { store, dispatch } = useContext(ClimbingContext);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  // get the trips from the ClimbingContext state data
+  const { trips } = store;
+
+  // truncate fn
+  const truncate = (text) => {
+    if (text.length > 50) {
+      return `${text.slice(0, 50)}...`;
+    }
+
+    return text;
+  };
+
+  // handle when user clicks on the 'more info' button to display routes for that trip
+  const getRoutes = (tripId) => {
+    // make an axios request to fetch all routes for that trip
+    loadRoutes(dispatch, tripId);
+  };
+
+  // function to create JSX for all trips
+  const getTripCards = () => {
+    const tripCards = trips.map((trip) => (
+      <div className="col-4">
+        <Card className="trip-card">
+          <Card.Body>
+            <Card.Title className="trip-title">{`Name: ${trip.name}`}</Card.Title>
+            <Card.Text>
+              {`Description: ${truncate(trip.description)}`}
+            </Card.Text>
+            <Button variant="primary" onClick={(e) => { handleShow(e); getRoutes(trip.id); }}>More Info</Button>
+          </Card.Body>
+        </Card>
+
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Modal heading</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Woohoo, you reading this text in a modal!</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleClose}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    ));
+
+    return tripCards;
+  };
+
+  return (
+    <div className="container">
+      <div className="row">
+        {getTripCards()}
+      </div>
+    </div>
+  );
+}
