@@ -11,10 +11,25 @@ axios.defaults.withCredentials = true;
 
 export default function Routes() {
   const { store, dispatch } = useContext(ClimbingContext);
+  const handleChangeOrder = () => {
+
+  };
+
+  const generateOrder = (route) => {
+    const arrOfOptions = [];
+    for (let i = 1; i < 16; i += 1) {
+      arrOfOptions.push(
+        <option value={i}>{i}</option>,
+      );
+    }
+    arrOfOptions.splice(route.order - 1, 1);
+    return arrOfOptions;
+  };
 
   function Route() {
     console.log(store, 'store');
     console.log(store.currentTripRoutes, 'store.currentTripRoutes');
+
     const listOfRoutes = store.currentTripRoutes.map((route) => (
       <div className="row">
         <div className="col">
@@ -24,7 +39,10 @@ export default function Routes() {
           {route.difficulty}
         </div>
         <div className="col">
-          {route.order}
+          <select onChange={handleChangeOrder}>
+            <option selected value={route.order}>{route.order}</option>
+            {generateOrder(route)}
+          </select>
         </div>
       </div>
     ));
@@ -42,27 +60,39 @@ export default function Routes() {
   return (
     <Modal.Dialog>
       <Modal.Header closeButton>
-        <Modal.Title>Trip: Kinabalu</Modal.Title>
+        <Modal.Title>
+          Trip:
+          [Get name from trip]
+        </Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
         <div className="row">
           <div className="col">
-            Name Of Routes
+            <h4> Name Of Routes</h4>
           </div>
           <div className="col">
-            Difficulty
+            <h4>Difficulty</h4>
           </div>
           <div className="col">
-            Order
+            <h4>Order</h4>
           </div>
         </div>
         {Route()}
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="secondary">Close</Button>
-        <Button variant="primary" onClick={handleGetRoutes}>Get Routes</Button>
+        <div className="row">
+          <div className="col-3">
+            <Button variant="secondary">Add Route</Button>
+          </div>
+          <div className="col-3">
+            <Button variant="primary" onClick={handleGetRoutes}>Get Routes</Button>
+          </div>
+          <div className="col-3">
+            <Button variant="secondary">Reorder Routes</Button>
+          </div>
+        </div>
       </Modal.Footer>
     </Modal.Dialog>
   );

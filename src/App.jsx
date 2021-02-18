@@ -1,15 +1,23 @@
 import React from 'react';
 import './App.css';
-import Routes from './Routes.jsx';
-import { ClimbingProvider } from './store.jsx';
+// import { Modal, Button } from 'react-bootstrap';
+
+// import the contexts providers
+import {
+  ClimbingProvider,
+} from './store.jsx';
+
+// import the child components of App
+import Trips from './components/Trips.jsx';
 
 function App() {
   return (
-    <div className="App">
-      <ClimbingProvider>
-        <Routes />
-      </ClimbingProvider>
-    </div>
+    <ClimbingProvider>
+      <div className="App">
+        <h1>Rock Climbing Planner</h1>
+        <Trips />
+      </div>
+    </ClimbingProvider>
   );
 }
 
