@@ -16,6 +16,8 @@ export const initialState = {
 const LOAD_TRIPS = 'LOAD_TRIPS';
 const LOAD_ROUTES = 'LOAD_ROUTES';
 const REORDER_ROUTES = 'REORDER_ROUTES';
+const RENAME_ROUTE = 'RENAME_ROUTE';
+const CHANGE_ROUTE_DIFFICULTY = 'CHANGE_ROUTE_DIFFICULTY';
 
 // define the matching reducer function
 export function climbingReducer(state, action) {
@@ -26,6 +28,12 @@ export function climbingReducer(state, action) {
       return { ...state, currentTripRoutes: action.payload.routes };
     case REORDER_ROUTES:
       return { ...state, currentTripRoutes: action.payload.routes };
+    case RENAME_ROUTE:
+      state.currentTripRoutes[action.payload.index].name = action.payload.name;
+      return { ...state };
+    case CHANGE_ROUTE_DIFFICULTY:
+      state.currentTripRoutes[action.payload.index].difficulty = action.payload.difficulty;
+      return { ...state };
     default:
       return state;
   }
@@ -59,6 +67,26 @@ export function reorderRoutesAction(routes) {
     type: REORDER_ROUTES,
     payload: {
       routes,
+    },
+  };
+}
+
+export function handleNameInputAction(index, name) {
+  return {
+    type: RENAME_ROUTE,
+    payload: {
+      index,
+      name,
+    },
+  };
+}
+
+export function handleDifficultyInputAction(index, difficulty) {
+  return {
+    type: CHANGE_ROUTE_DIFFICULTY,
+    payload: {
+      index,
+      difficulty,
     },
   };
 }

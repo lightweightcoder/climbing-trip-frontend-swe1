@@ -56,7 +56,6 @@ export default function Trips() {
         console.log(result, 'result');
       })
       .catch((error) => console.log(error));
-    setShow(false);
     setDisplay('Static');
   };
 
