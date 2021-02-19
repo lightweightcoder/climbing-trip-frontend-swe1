@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Card, Button, Modal } from 'react-bootstrap';
+import axios from 'axios';
 import StaticRoutes from './StaticRoutes.jsx';
 import EditableRoutes from './EditableRoutes.jsx';
 
@@ -9,6 +10,7 @@ import {
   loadRoutes,
 } from '../store.jsx';
 
+const BACKEND_URL = 'http://localhost:3004';
 export default function Trips() {
   // initialize the data from the context provider to obtain the
   // state and dispatch function from the value attribute
@@ -44,7 +46,16 @@ export default function Trips() {
     setDisplay('Editable');
   };
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = (tripId) => {
+    const { currentTripRoutes } = store;
+    // Update each the route's order to match its existing index
+    const updatedTripRoutes = currentTripRoutes.map((route, idx) => ({ ...route, order: idx + 1 }));
+
+    axios.put(`${BACKEND_URL}/trips/${tripId}/routes/update`, { updatedTripRoutes })
+      .then((result) => {
+        console.log(result, 'result');
+      })
+      .catch((error) => console.log(error));
     setShow(false);
     setDisplay('Static');
   };
@@ -92,7 +103,7 @@ export default function Trips() {
                 </Button>
               )
               : (
-                <Button variant="primary" onClick={handleSaveChanges}>
+                <Button variant="primary" onClick={() => { handleSaveChanges(trip.id); }}>
                   Save Changes
                 </Button>
               )}
