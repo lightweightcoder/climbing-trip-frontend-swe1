@@ -15,6 +15,7 @@ export const initialState = {
 // define each action we want to do on the data we defined above
 const LOAD_TRIPS = 'LOAD_TRIPS';
 const LOAD_ROUTES = 'LOAD_ROUTES';
+const REORDER_ROUTES = 'REORDER_ROUTES';
 
 // define the matching reducer function
 export function climbingReducer(state, action) {
@@ -22,6 +23,8 @@ export function climbingReducer(state, action) {
     case LOAD_TRIPS:
       return { ...state, trips: action.payload.trips };
     case LOAD_ROUTES:
+      return { ...state, currentTripRoutes: action.payload.routes };
+    case REORDER_ROUTES:
       return { ...state, currentTripRoutes: action.payload.routes };
     default:
       return state;
@@ -45,6 +48,15 @@ export function loadTripsAction(trips) {
 export function loadRoutesAction(routes) {
   return {
     type: LOAD_ROUTES,
+    payload: {
+      routes,
+    },
+  };
+}
+
+export function reorderRoutesAction(routes) {
+  return {
+    type: REORDER_ROUTES,
     payload: {
       routes,
     },

@@ -1,5 +1,7 @@
 import React from 'react';
 import './App.css';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 // import the contexts providers
 import {
@@ -12,13 +14,17 @@ import CreateTrip from './components/CreateTrip.jsx';
 
 function App() {
   return (
-    <ClimbingProvider>
-      <div className="App">
-        <h1>Rock Climbing Planner</h1>
-        <CreateTrip />
-        <Trips />
-      </div>
-    </ClimbingProvider>
+    <div>
+      <DndProvider backend={HTML5Backend}>
+        <ClimbingProvider>
+          <div className="App">
+            <h1>Rock Climbing Planner</h1>
+            <CreateTrip />
+            <Trips />
+          </div>
+        </ClimbingProvider>
+      </DndProvider>
+    </div>
   );
 }
 
