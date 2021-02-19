@@ -73,37 +73,19 @@ export default function Card({
   const opacity = isDragging ? 0 : 1;
   drag(drop(ref));
 
-  const handleChangeOrder = () => {
-
-  };
-
   const handleChangeDifficulty = () => {
 
   };
 
   const generateDifficulty = (currRouteDifficulty) => {
     const listOfDifficulty = createListOfDifficulty();
-    const arrOfOptions = listOfDifficulty.map((difficulty) => {
-      if (difficulty === currRouteDifficulty) {
-        return <option selected value={difficulty}>{difficulty}</option>;
+    const arrOfOptions = listOfDifficulty.map((difficultyOption) => {
+      if (difficultyOption === currRouteDifficulty) {
+        return <option selected value={difficultyOption}>{difficultyOption}</option>;
       }
 
-      return <option value={difficulty}>{difficulty}</option>;
+      return <option value={difficultyOption}>{difficultyOption}</option>;
     });
-    return arrOfOptions;
-  };
-
-  const generateOrder = (currRouteOrder) => {
-    const arrOfOptions = [];
-    for (let i = 1; i < 16; i += 1) {
-      if (currRouteOrder === i) {
-        arrOfOptions.push(<option selected value={i}>{i}</option>);
-      } else {
-        arrOfOptions.push(
-          <option value={i}>{i}</option>,
-        );
-      }
-    }
     return arrOfOptions;
   };
 
@@ -112,6 +94,9 @@ export default function Card({
 
       <div className="row">
         <div className="col">
+          {index + 1}
+        </div>
+        <div className="col">
           {name}
         </div>
         <div className="col">
@@ -119,11 +104,7 @@ export default function Card({
             {generateDifficulty(difficulty)}
           </select>
         </div>
-        <div className="col">
-          {index + 1}
-        </div>
       </div>
-
     </div>
   );
 }

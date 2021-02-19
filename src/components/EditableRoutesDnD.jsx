@@ -43,39 +43,17 @@ export default function EditableRoutesDnD() {
       </>
     );
   }
-
-  // function Route() {
-  //   const listOfRoutes = store.currentTripRoutes.map((route) => (
-  //     <div className="row">
-  //       <div className="col">
-  //         {route.name}
-  //       </div>
-  //       <div className="col">
-  //         <select onChange={handleChangeDifficulty}>
-  //           {generateDifficulty(route)}
-  //         </select>
-  //       </div>
-  //       <div className="col">
-  //         <select onChange={handleChangeOrder}>
-  //           {generateOrder(route)}
-  //         </select>
-  //       </div>
-  //     </div>
-  //   ));
-  //   return listOfRoutes;
-  // }
-
   return (
     <div>
       <div className="row">
         <div className="col">
-          <h4> Name Of Routes</h4>
+          <h4> Order</h4>
+        </div>
+        <div className="col">
+          <h4>Name</h4>
         </div>
         <div className="col">
           <h4>Difficulty</h4>
-        </div>
-        <div className="col">
-          <h4>Order</h4>
         </div>
       </div>
       {Container()}
