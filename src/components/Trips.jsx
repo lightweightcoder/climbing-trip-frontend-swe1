@@ -79,36 +79,6 @@ export default function Trips() {
             <Button variant="primary" onClick={() => { handleShow(trip); getRoutes(trip.id); }}>More Info</Button>
           </Card.Body>
         </Card>
-
-        {/* <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>
-              {trip.name}
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            { display === 'Static'
-              ? <StaticRoutes />
-              : <EditableRoutes />}
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-
-            { display === 'Static'
-              ? (
-                <Button variant="primary" onClick={handleEditRoutes}>
-                  Edit Routes
-                </Button>
-              )
-              : (
-                <Button variant="primary" onClick={() => { handleSaveChanges(trip.id); }}>
-                  Save Changes
-                </Button>
-              )}
-          </Modal.Footer>
-        </Modal> */}
       </div>
     ));
 
