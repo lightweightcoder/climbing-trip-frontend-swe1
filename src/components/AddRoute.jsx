@@ -14,7 +14,7 @@ import {
   loadRoutes,
 } from '../store.jsx';
 
-export default function AddRoute({ selectedTripId, setDisplay }) {
+export default function AddRoute({ selectedTripId, setDisplay, newRouteOrder }) {
   const { store, dispatch } = useContext(ClimbingContext);
   const { newRoute } = store;
 
@@ -33,7 +33,9 @@ export default function AddRoute({ selectedTripId, setDisplay }) {
 
   // handle to create a route for a trip in the DB
   const handleSubmitRoute = () => {
-    createRoute(dispatch, selectedTripId, newRoute);
+    // add in the new route's order
+    const routeToCreate = { ...newRoute, order: newRouteOrder };
+    createRoute(dispatch, selectedTripId, routeToCreate);
     loadRoutes(dispatch, selectedTripId);
     setDisplay('Static');
   };
@@ -60,7 +62,7 @@ export default function AddRoute({ selectedTripId, setDisplay }) {
         </Col>
       </Form.Group>
 
-      <Button variant="primary" onClick={() => handleSubmitRoute}>
+      <Button variant="primary" onClick={handleSubmitRoute}>
         Submit Route
       </Button>
     </Form>

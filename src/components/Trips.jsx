@@ -77,6 +77,7 @@ export default function Trips() {
 
   // function to create JSX for all trips
   const getTripCards = () => {
+    console.log('trips is', trips);
     const tripCards = trips.map((trip) => (
       <div key={trip.id} className="col-4">
         <Card className="trip-card">
@@ -105,7 +106,7 @@ export default function Trips() {
         {
         display === 'Static' ? <StaticRoutes />
           : display === 'Editable' ? <EditableRoutes />
-            : display === 'AddRoute' ? <AddRoute setDisplay={setDisplay} selectedTripId={selectedTripId} />
+            : display === 'AddRoute' ? <AddRoute setDisplay={setDisplay} selectedTripId={selectedTripId} newRouteOrder={store.currentTripRoutes.length + 1} />
               : ''
         }
       </Modal.Body>
