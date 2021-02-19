@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 import { Card, Button, Modal } from 'react-bootstrap';
-// import EditableRoutes from './EditableRoutes.jsx';
 import StaticRoutes from './StaticRoutes.jsx';
 import EditableRoutes from './EditableRoutes.jsx';
 
@@ -17,9 +16,17 @@ export default function Trips() {
   const { store, dispatch } = useContext(ClimbingContext);
   const [show, setShow] = useState(false);
   const [display, setDisplay] = useState('Static');
+  const [selectedTripName, setSelectedTripName] = useState('');
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => {
+    setShow(false);
+    setSelectedTripName('');
+  };
+
+  const handleShow = (trip) => {
+    setShow(true);
+    setSelectedTripName(trip.name);
+  };
 
   // get the trips from the ClimbingContext state data
   const { trips } = store;
@@ -58,11 +65,11 @@ export default function Trips() {
             <Card.Text>
               {`Description: ${truncate(trip.description)}`}
             </Card.Text>
-            <Button variant="primary" onClick={(e) => { handleShow(e); getRoutes(trip.id); }}>More Info</Button>
+            <Button variant="primary" onClick={() => { handleShow(trip); getRoutes(trip.id); }}>More Info</Button>
           </Card.Body>
         </Card>
 
-        <Modal show={show} onHide={handleClose}>
+        {/* <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>
               {trip.name}
@@ -90,17 +97,50 @@ export default function Trips() {
                 </Button>
               )}
           </Modal.Footer>
-        </Modal>
+        </Modal> */}
       </div>
     ));
 
     return tripCards;
   };
 
+  const getTripRoutesModal = () => (
+    <Modal show={show} onHide={handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>
+          {selectedTripName}
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        { display === 'Static'
+          ? <StaticRoutes />
+          : <EditableRoutes />}
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          Close
+        </Button>
+
+        { display === 'Static'
+          ? (
+            <Button variant="primary" onClick={handleEditRoutes}>
+              Edit Routes
+            </Button>
+          )
+          : (
+            <Button variant="primary" onClick={handleSaveChanges}>
+              Save Changes
+            </Button>
+          )}
+      </Modal.Footer>
+    </Modal>
+  );
+
   return (
     <div className="container">
       <div className="row">
         {getTripCards()}
+        {getTripRoutesModal()}
       </div>
     </div>
   );
