@@ -1,8 +1,13 @@
 import React, { useState, useContext } from 'react';
 import { Card, Button, Modal } from 'react-bootstrap';
+<<<<<<< HEAD
 // import EditableRoutes from './EditableRoutes.jsx';
 import StaticRoutes from './StaticRoutes.jsx';
 import EditableRoutes from './EditableRoutesDnD.jsx';
+=======
+import StaticRoutes from './StaticRoutes.jsx';
+import EditableRoutes from './EditableRoutes.jsx';
+>>>>>>> main
 
 // import all the appropriate trips functions
 import {
@@ -51,7 +56,7 @@ export default function Trips() {
   // function to create JSX for all trips
   const getTripCards = () => {
     const tripCards = trips.map((trip) => (
-      <div className="col-4">
+      <div key={trip.id} className="col-4">
         <Card className="trip-card">
           <Card.Body>
             <Card.Title className="trip-title">{`Name: ${trip.name}`}</Card.Title>

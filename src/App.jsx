@@ -11,6 +11,7 @@ import {
 // import the child components of App
 import Trips from './components/Trips.jsx';
 import Container from './components/Container.jsx';
+import CreateTrip from './components/CreateTrip.jsx';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <ClimbingProvider>
           <div className="App">
             <h1>Rock Climbing Planner</h1>
+            <CreateTrip />
             <Trips />
           </div>
         </ClimbingProvider>
