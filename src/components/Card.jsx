@@ -1,6 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import createListOfDifficulty from '../helper.js';
+import { ClimbingContext, handleNameInputAction, handleDifficultyInputAction } from '../store.jsx';
 
 const ItemTypes = {
   CARD: 'card',
@@ -73,10 +74,7 @@ export default function Card({
   const opacity = isDragging ? 0 : 1;
   drag(drop(ref));
 
-  const handleChangeDifficulty = () => {
-
-  };
-
+  // Generate a drop down list of difficulty options
   const generateDifficulty = (currRouteDifficulty) => {
     const listOfDifficulty = createListOfDifficulty();
     const arrOfOptions = listOfDifficulty.map((difficultyOption) => {
@@ -88,16 +86,29 @@ export default function Card({
     });
     return arrOfOptions;
   };
+  const [nameValue, setNameValue] = useState(name);
+  const { dispatch } = useContext(ClimbingContext);
+
+  // Control function when input for name is changed
+  const handleChangeNameValue = (event) => {
+    setNameValue(event.target.value);
+    dispatch(handleNameInputAction(index, event.target.value));
+  };
+
+  // Control function when dropdown value of difficulty is changed
+  const handleChangeDifficulty = (event) => {
+    console.log(event.target.value);
+    dispatch(handleDifficultyInputAction(index, event.target.value));
+  };
 
   return (
     <div ref={ref} style={{ ...style, opacity }}>
-
       <div className="row">
         <div className="col">
           {index + 1}
         </div>
         <div className="col">
-          {name}
+          <input value={nameValue} onChange={handleChangeNameValue} />
         </div>
         <div className="col">
           <select onChange={handleChangeDifficulty}>
