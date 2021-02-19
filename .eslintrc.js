@@ -43,5 +43,6 @@ module.exports = {
     // Allow function param reassign for array or object elements or properties
     'no-param-reassign': ['error', { props: false }],
     'no-shadow': 'warn',
+    'no-nested-ternary': 'warn',
   },
 };
