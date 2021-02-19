@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
+import createListOfDifficulty from '../helper.js';
 
 const ItemTypes = {
   CARD: 'card',
@@ -13,7 +14,7 @@ const style = {
   cursor: 'move',
 };
 export default function Card({
-  id, text, index, moveCard,
+  index, name, order, difficulty, moveCard,
 }) {
   const ref = useRef(null);
   const [, drop] = useDrop({
@@ -60,17 +61,50 @@ export default function Card({
       item.index = hoverIndex;
     },
   });
+
   const [{ isDragging }, drag] = useDrag({
-    item: { type: ItemTypes.CARD, id, index },
+    item: {
+      type: ItemTypes.CARD, index, name, order, difficulty,
+    },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });
   const opacity = isDragging ? 0 : 1;
   drag(drop(ref));
+
+  const handleChangeDifficulty = () => {
+
+  };
+
+  const generateDifficulty = (currRouteDifficulty) => {
+    const listOfDifficulty = createListOfDifficulty();
+    const arrOfOptions = listOfDifficulty.map((difficultyOption) => {
+      if (difficultyOption === currRouteDifficulty) {
+        return <option selected value={difficultyOption}>{difficultyOption}</option>;
+      }
+
+      return <option value={difficultyOption}>{difficultyOption}</option>;
+    });
+    return arrOfOptions;
+  };
+
   return (
     <div ref={ref} style={{ ...style, opacity }}>
-      {text}
+
+      <div className="row">
+        <div className="col">
+          {index + 1}
+        </div>
+        <div className="col">
+          {name}
+        </div>
+        <div className="col">
+          <select onChange={handleChangeDifficulty}>
+            {generateDifficulty(difficulty)}
+          </select>
+        </div>
+      </div>
     </div>
   );
 }

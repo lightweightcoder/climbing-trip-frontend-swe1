@@ -1,13 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { Card, Button, Modal } from 'react-bootstrap';
-<<<<<<< HEAD
 // import EditableRoutes from './EditableRoutes.jsx';
 import StaticRoutes from './StaticRoutes.jsx';
-import EditableRoutes from './EditableRoutesDnD.jsx';
-=======
-import StaticRoutes from './StaticRoutes.jsx';
 import EditableRoutes from './EditableRoutes.jsx';
->>>>>>> main
 
 // import all the appropriate trips functions
 import {

@@ -10,7 +10,6 @@ import {
 
 // import the child components of App
 import Trips from './components/Trips.jsx';
-import Container from './components/Container.jsx';
 import CreateTrip from './components/CreateTrip.jsx';
 
 function App() {
