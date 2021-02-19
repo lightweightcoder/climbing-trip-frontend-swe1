@@ -87,7 +87,7 @@ export default function Card({
     return arrOfOptions;
   };
   const [nameValue, setNameValue] = useState(name);
-  const { store, dispatch } = useContext(ClimbingContext);
+  const { dispatch } = useContext(ClimbingContext);
 
   // Control function when input for name is changed
   const handleChangeNameValue = (event) => {

@@ -62,6 +62,7 @@ export function loadRoutesAction(routes) {
   };
 }
 
+// To handle the update the states of the routes after drag and drop
 export function reorderRoutesAction(routes) {
   return {
     type: REORDER_ROUTES,
@@ -71,6 +72,7 @@ export function reorderRoutesAction(routes) {
   };
 }
 
+// To handle the change in the name input of a route
 export function handleNameInputAction(index, name) {
   return {
     type: RENAME_ROUTE,
@@ -81,6 +83,7 @@ export function handleNameInputAction(index, name) {
   };
 }
 
+// To handle the change in difficulty of a route
 export function handleDifficultyInputAction(index, difficulty) {
   return {
     type: CHANGE_ROUTE_DIFFICULTY,
