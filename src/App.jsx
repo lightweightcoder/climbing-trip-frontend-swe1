@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-// import { Modal, Button } from 'react-bootstrap';
 
 // import the contexts providers
 import {
@@ -9,12 +8,14 @@ import {
 
 // import the child components of App
 import Trips from './components/Trips.jsx';
+import CreateTrip from './components/CreateTrip.jsx';
 
 function App() {
   return (
     <ClimbingProvider>
       <div className="App">
         <h1>Rock Climbing Planner</h1>
+        <CreateTrip />
         <Trips />
       </div>
     </ClimbingProvider>

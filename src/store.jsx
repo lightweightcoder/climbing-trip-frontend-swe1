@@ -2,6 +2,8 @@
 import React, { useReducer, useEffect } from 'react';
 import axios from 'axios';
 
+axios.defaults.withCredentials = true;
+
 // create an object that represents all the data contained in the app
 // we moved all of this data from the app component into the store
 export const initialState = {
@@ -119,5 +121,11 @@ export function loadTrips(dispatch) {
 export function loadRoutes(dispatch, tripId) {
   axios.get(`${BACKEND_URL}/trips/${tripId}/routes`).then((result) => {
     dispatch(loadRoutesAction(result.data.routes));
+  });
+}
+
+export function createTrip(dispatch, newTrip) {
+  axios.post(`${BACKEND_URL}/trips`, newTrip).then((result) => {
+    dispatch(loadTripsAction(result.data.trips));
   });
 }
