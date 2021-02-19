@@ -46,12 +46,11 @@ export default function Trips() {
     setDisplay('Editable');
   };
 
-  const handleSaveChanges = (tripId) => {
+  const handleSaveChanges = () => {
     const { currentTripRoutes } = store;
     // Update each the route's order to match its existing index
     const updatedTripRoutes = currentTripRoutes.map((route, idx) => ({ ...route, order: idx + 1 }));
-
-    axios.put(`${BACKEND_URL}/trips/${tripId}/routes/update`, { updatedTripRoutes })
+    axios.put(`${BACKEND_URL}/trips/routes/update`, { updatedTripRoutes })
       .then((result) => {
         console.log(result, 'result');
       })
