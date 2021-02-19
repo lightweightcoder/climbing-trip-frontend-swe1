@@ -1,8 +1,10 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState, useContext } from 'react';
 import { Card, Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import StaticRoutes from './StaticRoutes.jsx';
 import EditableRoutes from './EditableRoutes.jsx';
+import AddRoute from './AddRoute.jsx';
 
 // import all the appropriate trips functions
 import {
@@ -19,15 +21,19 @@ export default function Trips() {
   const [show, setShow] = useState(false);
   const [display, setDisplay] = useState('Static');
   const [selectedTripName, setSelectedTripName] = useState('');
+  const [selectedTripId, setSelectedTripId] = useState('');
 
   const handleClose = () => {
     setShow(false);
     setSelectedTripName('');
+    setSelectedTripId('');
+    setDisplay('Static');
   };
 
   const handleShow = (trip) => {
     setShow(true);
     setSelectedTripName(trip.name);
+    setSelectedTripId(trip.id);
   };
 
   // get the trips from the ClimbingContext state data
@@ -57,6 +63,11 @@ export default function Trips() {
       })
       .catch((error) => console.log(error));
     setDisplay('Static');
+  };
+
+  // handle to display a form to add a route for a trip
+  const handleAddRoute = () => {
+    setDisplay('AddRoute');
   };
 
   // handle when user clicks on the 'more info' button to display routes for that trip
@@ -92,26 +103,34 @@ export default function Trips() {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        { display === 'Static'
-          ? <StaticRoutes />
-          : <EditableRoutes />}
+        {
+        display === 'Static' ? <StaticRoutes />
+          : display === 'Editable' ? <EditableRoutes />
+            : display === 'AddRoute' ? <AddRoute setDisplay={setDisplay} selectedTripId={selectedTripId} />
+              : ''
+        }
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
 
-        { display === 'Static'
-          ? (
+        {
+        display === 'Static' ? (
+          <>
             <Button variant="primary" onClick={handleEditRoutes}>
               Edit Routes
             </Button>
-          )
-          : (
-            <Button variant="primary" onClick={handleSaveChanges}>
-              Save Changes
+            <Button variant="primary" onClick={handleAddRoute}>
+              Add Route
             </Button>
-          )}
+          </>
+        ) : display === 'Editable' ? (
+          <Button variant="primary" onClick={handleSaveChanges}>
+            Save Changes
+          </Button>
+        ) : ''
+        }
       </Modal.Footer>
     </Modal>
   );

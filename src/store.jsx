@@ -10,6 +10,7 @@ export const initialState = {
   // trips and currentTripRoutes will store database information of every trip and route respectively
   trips: [],
   currentTripRoutes: [],
+  newRoute: { name: '', difficulty: '' },
 };
 
 // define each action we want to do on the data we defined above
@@ -18,6 +19,8 @@ const LOAD_ROUTES = 'LOAD_ROUTES';
 const REORDER_ROUTES = 'REORDER_ROUTES';
 const RENAME_ROUTE = 'RENAME_ROUTE';
 const CHANGE_ROUTE_DIFFICULTY = 'CHANGE_ROUTE_DIFFICULTY';
+const NEW_ROUTE_NAME_CHANGE = 'NEW_ROUTE_NAME_CHANGE';
+const NEW_ROUTE_DIFFICULTY_CHANGE = 'NEW_ROUTE_DIFFICULTY_CHANGE';
 
 // define the matching reducer function
 export function climbingReducer(state, action) {
@@ -33,6 +36,12 @@ export function climbingReducer(state, action) {
       return { ...state };
     case CHANGE_ROUTE_DIFFICULTY:
       state.currentTripRoutes[action.payload.index].difficulty = action.payload.difficulty;
+      return { ...state };
+    case NEW_ROUTE_NAME_CHANGE:
+      state.newRoute.name = action.payload.name;
+      return { ...state };
+    case NEW_ROUTE_DIFFICULTY_CHANGE:
+      state.newRoute.difficulty = action.payload.difficulty;
       return { ...state };
     default:
       return state;
@@ -89,6 +98,26 @@ export function handleDifficultyInputAction(index, difficulty) {
     type: CHANGE_ROUTE_DIFFICULTY,
     payload: {
       index,
+      difficulty,
+    },
+  };
+}
+
+// To handle the change in the name input of a new route
+export function newRouteNameInputAction(name) {
+  return {
+    type: NEW_ROUTE_NAME_CHANGE,
+    payload: {
+      name,
+    },
+  };
+}
+
+// To handle the change in difficulty option of a new route
+export function newRouteDifficultyInputAction(difficulty) {
+  return {
+    type: NEW_ROUTE_DIFFICULTY_CHANGE,
+    payload: {
       difficulty,
     },
   };
@@ -169,6 +198,12 @@ export function loadRoutes(dispatch, tripId) {
 
 export function createTrip(dispatch, newTrip) {
   axios.post(`${BACKEND_URL}/trips`, newTrip).then((result) => {
+    dispatch(loadTripsAction(result.data.trips));
+  });
+}
+
+export function createRoute(dispatch, tripId, newRoute) {
+  axios.post(`${BACKEND_URL}/trips/${tripId}/routes`, newRoute).then((result) => {
     dispatch(loadTripsAction(result.data.trips));
   });
 }
