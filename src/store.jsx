@@ -152,6 +152,7 @@ export function ClimbingProvider({ children }) {
   // create the dispatch function in one place and put in into context
   // where it will be accessible to all of the children
   const [store, dispatch] = useReducer(climbingReducer, initialState);
+  console.log('inside ClimbingProvider');
 
   useEffect(() => {
     axios.get(`${BACKEND_URL}/trips`).then((result) => {

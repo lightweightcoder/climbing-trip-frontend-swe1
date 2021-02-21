@@ -25,7 +25,7 @@ export default function Routes() {
 
   function Route() {
     const listOfRoutes = store.currentTripRoutes.map((route) => (
-      <div className="row">
+      <div key={route.id} className="row">
         <div className="col">
           {route.name}
         </div>
