@@ -34,6 +34,7 @@ export default function Trips() {
     setShow(true);
     setSelectedTripName(trip.name);
     setSelectedTripId(trip.id);
+    console.log('inside handle show');
   };
 
   // get the trips from the ClimbingContext state data

@@ -192,7 +192,9 @@ export function loadTrips(dispatch) {
 }
 
 export function loadRoutes(dispatch, tripId) {
+  console.log('inside loadRoutes');
   axios.get(`${BACKEND_URL}/trips/${tripId}/routes`).then((result) => {
+    console.log('running dispatch(loadRoutesAction(result.data.routes))');
     dispatch(loadRoutesAction(result.data.routes));
   });
 }
@@ -203,8 +205,7 @@ export function createTrip(dispatch, newTrip) {
   });
 }
 
-export function createRoute(dispatch, tripId, newRoute) {
-  axios.post(`${BACKEND_URL}/trips/${tripId}/routes`, newRoute).then((result) => {
-    dispatch(loadTripsAction(result.data.trips));
-  });
+export function createRoute(tripId, newRoute) {
+  console.log('inside createRoute');
+  return axios.post(`${BACKEND_URL}/trips/${tripId}/routes`, newRoute);
 }

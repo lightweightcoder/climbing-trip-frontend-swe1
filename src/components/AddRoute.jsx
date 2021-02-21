@@ -35,8 +35,12 @@ export default function AddRoute({ selectedTripId, setDisplay, newRouteOrder }) 
   const handleSubmitRoute = () => {
     // add in the new route's order
     const routeToCreate = { ...newRoute, order: newRouteOrder };
-    createRoute(dispatch, selectedTripId, routeToCreate);
-    loadRoutes(dispatch, selectedTripId);
+
+    createRoute(selectedTripId, routeToCreate)
+      .then(() => {
+        loadRoutes(dispatch, selectedTripId);
+      });
+
     setDisplay('Static');
   };
 
